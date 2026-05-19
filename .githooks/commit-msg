@@ -1,0 +1,8 @@
+#!/bin/sh
+# Reject Cursor co-author trailers so only the project owner appears as contributor.
+if grep -qiE '^Co-authored-by:.*cursor' "$1"; then
+  echo "ERROR: Co-authored-by Cursor/cursoragent is not allowed on this repository."
+  echo "Commit with: git commit -m \"your message\" (from your terminal, not AI co-author mode)"
+  exit 1
+fi
+exit 0

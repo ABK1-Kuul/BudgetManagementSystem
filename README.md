@@ -441,6 +441,20 @@ BudgetManagementSystem/
 
 ---
 
+## Git: single contributor only
+
+All commits must be authored by **your GitHub account only** — no `Co-authored-by: Cursor` or [cursoragent](https://github.com/cursoragent).
+
+After cloning, enable the repo hook once per machine:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+This blocks commits that include Cursor co-author lines. Prefer committing from your own terminal with `git commit -m "message"`.
+
+---
+
 ## Rules everyone must follow
 
 1. **Controllers → Services → DAOs only.** No shortcuts.  
