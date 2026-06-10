@@ -1,4 +1,4 @@
-﻿package com.smartbudget.config;
+package com.smartbudget.config;
 
 public class AppConfig {
 }
