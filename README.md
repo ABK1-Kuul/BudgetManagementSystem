@@ -94,6 +94,122 @@ gantt
 
 ---
 
+## CURRENT PROGRESS STATUS (as of 2026-06-10)
+
+> **Branches:** `dev` (Member 1), `member2-services` (Member 2), `weekly-staging` (Member 3 integration)
+
+### Member 1 — Data Layer (`dev` branch)
+
+**Week 1 Milestone: 50% COMPLETE**
+
+| Component | Status | Details |
+|-----------|--------|---------|
+| `database/schema.sql` | ✅ COMPLETE | All tables created: `users`, `categories`, `expenses`, `incomes`, `budgets` + indexes |
+| `database/seed.sql` | ✅ COMPLETE | Demo data: 2 users, 5 categories, sample expenses/incomes/budgets |
+| `models/User.java` | ✅ COMPLETE | Full POJO with getters/setters, constructors, toString |
+| `models/Category.java` | ✅ COMPLETE | Full POJO |
+| `models/Expense.java` | ✅ COMPLETE | Full POJO with User & Category object relationships |
+| `models/Income.java` | ✅ COMPLETE | Full POJO |
+| `models/Budget.java` | ✅ COMPLETE | Full POJO |
+| `database/DatabaseConnection.java` | ❌ NOT STARTED | **CRITICAL BLOCKER** — No connection pooling, no query methods |
+| `dao/UserDAO.java` | ❌ NOT STARTED | **CRITICAL BLOCKER** — No register, login, findById, update methods |
+| `dao/ExpenseDAO.java` | ❌ NOT STARTED | Needed for Week 2 |
+| `dao/IncomeDAO.java` | ❌ NOT STARTED | Needed for Week 2 |
+| `dao/CategoryDAO.java` | ❌ NOT STARTED | Needed for Week 2 |
+| `dao/BudgetDAO.java` | ❌ NOT STARTED | Needed for Week 3 |
+| `config/DatabaseConfig.java` | ❌ NOT STARTED | DB credentials file |
+
+**Next Actions for Member 1:**
+1. Implement `DatabaseConnection.getConnection()` (singleton, PreparedStatement support)
+2. Implement `UserDAO`: `register()`, `findByUsername()`, `findById()`, `update()`
+3. Test with MySQL before handing to Member 2
+
+---
+
+### Member 2 — Business Logic Layer (`member2-services` branch)
+
+**Week 1 Milestone: 0% COMPLETE**
+
+| Component | Status | Details |
+|-----------|--------|---------|
+| `services/AuthService.java` | ❌ NOT STARTED | **CRITICAL BLOCKER** — Depends on UserDAO; login, register, validatePassword |
+| `session/UserSession.java` | ❌ NOT STARTED | **CRITICAL BLOCKER** — Singleton session manager for logged-in user |
+| `utils/PasswordUtil.java` | ❌ NOT STARTED | Hash & verify passwords |
+| `utils/AlertUtil.java` | ❌ NOT STARTED | Show error/success popups (used by controllers) |
+| `utils/DateUtil.java` | ❌ NOT STARTED | Date formatting helpers |
+| `services/ExpenseService.java` | ❌ NOT STARTED | Needed for Week 2 |
+| `services/IncomeService.java` | ❌ NOT STARTED | Needed for Week 2 |
+| `services/BudgetService.java` | ❌ NOT STARTED | Needed for Week 3 |
+| `services/DashboardService.java` | ❌ NOT STARTED | Needed for Week 3 |
+| `enums/ExpenseCategory.java` | ❌ NOT STARTED | Category enum or static list |
+| `enums/UserRole.java` | ❌ NOT STARTED | User role enum |
+| `exceptions/DatabaseException.java` | ❌ NOT STARTED | Custom exception class |
+| `exceptions/ValidationException.java` | ❌ NOT STARTED | Custom exception class |
+
+**Dependency Chain:**  
+❌ `UserDAO` → ❌ `AuthService` → ✅ Ready for Member 3 UI
+
+**Next Actions for Member 2:**
+1. Wait for Member 1 to complete `DatabaseConnection` & `UserDAO`
+2. Implement `PasswordUtil`: hash & verify methods
+3. Implement `UserSession`: singleton with getter/setter for current user
+4. Implement `AuthService`: login & register (calls UserDAO + PasswordUtil)
+5. Create `PasswordUtil` & `AlertUtil` so Member 3 can build UI
+
+---
+
+### Member 3 — UI Layer (`weekly-staging` branch)
+
+**Week 1 Milestone: 0% COMPLETE**
+
+| Component | Status | Details |
+|-----------|--------|---------|
+| `Launcher.java` | ❌ NOT STARTED | **BLOCKER** — JavaFX entry point |
+| `MainApplication.java` | ❌ NOT STARTED | **BLOCKER** — Scene builder, window setup |
+| `controllers/LoginController.java` | ❌ NOT STARTED | Depends on AuthService |
+| `controllers/RegisterController.java` | ❌ NOT STARTED | Depends on AuthService |
+| `controllers/DashboardController.java` | ❌ NOT STARTED | Depends on UserSession |
+| `resources/fxml/login.fxml` | ❌ NOT STARTED | Login screen layout |
+| `resources/fxml/register.fxml` | ❌ NOT STARTED | Register screen layout |
+| `resources/fxml/dashboard.fxml` | ❌ NOT STARTED | Dashboard screen layout |
+| `resources/fxml/expenses.fxml` | ❌ NOT STARTED | Needed for Week 2 |
+| `resources/fxml/budget.fxml` | ❌ NOT STARTED | Needed for Week 3 |
+| `resources/fxml/reports.fxml` | ❌ NOT STARTED | Needed for Week 4 |
+| `resources/css/app.css` | ❌ NOT STARTED | Styling |
+| `controllers/ExpenseController.java` | ❌ NOT STARTED | Needed for Week 2 |
+| `controllers/BudgetController.java` | ❌ NOT STARTED | Needed for Week 3 |
+| `controllers/ReportController.java` | ❌ NOT STARTED | Needed for Week 4 |
+
+**Dependency Chain:**  
+❌ `AuthService` + ❌ `UserSession` → ❌ Controllers & FXML
+
+**Next Actions for Member 3:**
+1. Wait for Member 1 & 2 to complete core services
+2. OR: Start with `Launcher` + `MainApplication` using mock/stub services
+3. Build `login.fxml` + `LoginController` once `AuthService` interface is defined
+
+---
+
+### Blocker Analysis
+
+**Critical Path (blocks all):**
+```
+Member 1: DatabaseConnection + UserDAO 
+    ↓
+Member 2: AuthService + UserSession + PasswordUtil
+    ↓
+Member 3: Launcher + LoginController + login.fxml
+```
+
+**Recommendation:** Member 3 can unblock immediately by:
+- Starting `Launcher` + `MainApplication` today
+- Using **mock/stub services** for testing UI layout
+- Swapping in real services once Member 2 delivers
+
+This prevents a 2-week waiting bottleneck.
+
+---
+
 ## System flow (how the app works)
 
 ### Layer diagram
