@@ -1,4 +1,4 @@
-﻿package com.smartbudget.dao;
+package com.smartbudget.dao;
 
 public class CategoryDAO {
 }
