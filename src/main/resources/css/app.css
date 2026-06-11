@@ -1,3 +1,89 @@
 ﻿/* Main application styles */
-.root { -fx-font-family: 'Segoe UI', sans-serif; }
+.root { -fx-font-family: 'Segoe UI', sans-serif; -fx-font-size: 12px; }
 
+/* Buttons */
+.button {
+    -fx-padding: 8px 16px;
+    -fx-font-size: 12px;
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-border-radius: 3px;
+}
+
+.button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.button:disabled {
+    -fx-background-color: #bdc3c7;
+    -fx-text-fill: #7f8c8d;
+}
+
+/* Text Fields & Password Fields */
+.text-field, .password-field {
+    -fx-padding: 8px;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1;
+    -fx-border-radius: 3px;
+    -fx-font-size: 12px;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #3498db;
+    -fx-border-width: 2;
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: #2c3e50;
+}
+
+/* Hyperlinks */
+.hyperlink {
+    -fx-text-fill: #3498db;
+    -fx-padding: 0px;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #2980b9;
+    -fx-underline: true;
+}
+
+/* TableView */
+.table-view {
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1;
+}
+
+.table-view .column-header {
+    -fx-background-color: #ecf0f1;
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+}
+
+/* ComboBox & DatePicker */
+.combo-box, .date-picker {
+    -fx-padding: 8px;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1;
+    -fx-border-radius: 3px;
+}
+
+/* Success Button */
+.button-success {
+    -fx-background-color: #27ae60;
+}
+
+.button-success:hover {
+    -fx-background-color: #229954;
+}
+
+/* Danger Button */
+.button-danger {
+    -fx-background-color: #e74c3c;
+}
+
+.button-danger:hover {
+    -fx-background-color: #c0392b;
+}
