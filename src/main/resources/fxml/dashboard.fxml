@@ -1,5 +1,70 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml">
-</AnchorPane>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.smartbudget.controllers.DashboardController" prefWidth="900" prefHeight="600">
+    
+    <!-- Top Bar -->
+    <top>
+        <HBox spacing="20" style="-fx-background-color: #2c3e50; -fx-padding: 15;" alignment="CENTER_RIGHT">
+            <Label fx:id="welcomeLabel" text="Welcome!" style="-fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold;" HBox.hgrow="ALWAYS" />
+            <Button text="Logout" onAction="#onLogoutClick" style="-fx-font-size: 12; -fx-padding: 8;" />
+        </HBox>
+    </top>
+    
+    <!-- Left Navigation -->
+    <left>
+        <VBox spacing="10" style="-fx-background-color: #ecf0f1; -fx-padding: 20; -fx-min-width: 150;" alignment="TOP_CENTER">
+            <Label text="Menu" style="-fx-font-weight: bold; -fx-font-size: 14;">
+                <VBox.margin>
+                    <Insets bottom="15" />
+                </VBox.margin>
+            </Label>
+            <Button text="Dashboard" style="-fx-max-width: Infinity;" disable="true" />
+            <Button text="Expenses" onAction="#onExpensesClick" style="-fx-max-width: Infinity;" />
+            <Button text="Budget" onAction="#onBudgetClick" style="-fx-max-width: Infinity;" />
+            <Button text="Reports" onAction="#onReportsClick" style="-fx-max-width: Infinity;" />
+        </VBox>
+    </left>
+    
+    <!-- Main Content -->
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true">
+            <VBox spacing="20" style="-fx-padding: 30;">
+                
+                <!-- Title -->
+                <Label text="Dashboard" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                
+                <!-- Summary Cards -->
+                <HBox spacing="20">
+                    <!-- Total Income Card -->
+                    <VBox spacing="10" style="-fx-border-color: #3498db; -fx-border-width: 1; -fx-border-radius: 5; -fx-padding: 20; -fx-max-width: 200;">
+                        <Label text="Total Income" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                        <Label fx:id="totalIncomeLabel" text="$0.00" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #27ae60;" />
+                    </VBox>
+                    
+                    <!-- Total Expenses Card -->
+                    <VBox spacing="10" style="-fx-border-color: #e74c3c; -fx-border-width: 1; -fx-border-radius: 5; -fx-padding: 20; -fx-max-width: 200;">
+                        <Label text="Total Expenses" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                        <Label fx:id="totalExpensesLabel" text="$0.00" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #e74c3c;" />
+                    </VBox>
+                    
+                    <!-- Balance Card -->
+                    <VBox spacing="10" style="-fx-border-color: #9b59b6; -fx-border-width: 1; -fx-border-radius: 5; -fx-padding: 20; -fx-max-width: 200;">
+                        <Label text="Balance" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                        <Label fx:id="balanceLabel" text="$0.00" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #9b59b6;" />
+                    </VBox>
+                </HBox>
+                
+                <!-- Quick Info -->
+                <Label text="Overview information will appear here." style="-fx-font-size: 14; -fx-text-fill: #7f8c8d; -fx-padding: 20;" />
+                
+            </VBox>
+        </ScrollPane>
+    </center>
+    
+</BorderPane>
 
