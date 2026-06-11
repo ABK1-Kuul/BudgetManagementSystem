@@ -2,44 +2,62 @@ package com.smartbudget.models;
 
 import java.time.LocalDate;
 
-public class Income {
-    private int incomeId;
-    private User user;
-    private double amount;
-    private String description;
-    private LocalDate incomeDate;
+import com.smartbudget.exceptions.ValidationException;
+
+/**
+ * Class representing an Income transaction.
+ * Demonstrates the OOP principle of Inheritance (extends Transaction).
+ */
+public class Income extends Transaction {
 
     // No-Args Constructor
-    public Income() {}
-
-    // All-Args Constructor
-    public Income(int incomeId, User user, double amount, String description, LocalDate incomeDate) {
-        this.incomeId = incomeId;
-        this.user = user;
-        this.amount = amount;
-        this.description = description;
-        this.incomeDate = incomeDate;
+    public Income() {
+        super();
     }
 
-    // Getters and Setters
-    public int getIncomeId() { return incomeId; }
-    public void setIncomeId(int incomeId) { this.incomeId = incomeId; }
+    // Parameterized Constructor
+    public Income(int incomeId, User user, double amount, String description, LocalDate incomeDate) throws ValidationException {
+        // Call parent class constructor to initialize common fields
+        super(incomeId, user, amount, description, incomeDate);
+    }
 
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
+    // Implement Abstraction contract: returns the transaction category type description
+    @Override
+    public String getTransactionType() {
+        return "Income";
+    }
 
-    public double getAmount() { return amount; }
-    public void setAmount(double amount) { this.amount = amount; }
+    // Implement Polymorphic signed amount contract: Incomes are positive cash flows
+    @Override
+    public double getSignedAmount() {
+        return amount;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    // Backward compatibility delegates: map standard names to parent class Transaction fields
+    public int getIncomeId() {
+        return getId();
+    }
 
-    public LocalDate getIncomeDate() { return incomeDate; }
-    public void setIncomeDate(LocalDate incomeDate) { this.incomeDate = incomeDate; }
+    public void setIncomeId(int incomeId) {
+        setId(incomeId);
+    }
+
+    public LocalDate getIncomeDate() {
+        return getDate();
+    }
+
+    public void setIncomeDate(LocalDate incomeDate) {
+        setDate(incomeDate);
+    }
 
     @Override
     public String toString() {
-        return "Income{" + "incomeId=" + incomeId + ", user=" + (user != null ? user.getUsername() : "null") +
-                ", amount=" + amount + ", description='" + description + '\'' + ", incomeDate=" + incomeDate + '}';
+        return "Income{" +
+                "incomeId=" + getIncomeId() +
+                ", user=" + (user != null ? user.getUsername() : "null") +
+                ", amount=" + amount +
+                ", description='" + description + '\'' +
+                ", incomeDate=" + getIncomeDate() +
+                '}';
     }
 }
