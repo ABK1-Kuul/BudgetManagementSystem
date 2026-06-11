@@ -1,4 +1,20 @@
 package com.smartbudget.enums;
 
-public class UserRole {
+/**
+ * Enumeration representing user access roles.
+ * Demonstrates the OOP concept of Type Safety and Enumerated Types.
+ */
+public enum UserRole {
+    STANDARD("Standard User"),
+    ADMIN("Administrator");
+
+    private final String displayName;
+
+    UserRole(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
 }
