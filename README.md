@@ -164,21 +164,21 @@ gantt
 
 | Component | Status | Details |
 |-----------|--------|---------|
-| `Launcher.java` | ✅ NOT STARTED | **BLOCKER** — JavaFX entry point |
-| `MainApplication.java` | ✅ NOT STARTED | **BLOCKER** — Scene builder, window setup |
-| `controllers/LoginController.java` | ✅ NOT STARTED | Depends on AuthService |
-| `controllers/RegisterController.java` | ✅ NOT STARTED | Depends on AuthService |
-| `controllers/DashboardController.java` | ✅ NOT STARTED | Depends on UserSession |
-| `resources/fxml/login.fxml` | ✅ NOT STARTED | Login screen layout |
-| `resources/fxml/register.fxml` | ✅ NOT STARTED | Register screen layout |
-| `resources/fxml/dashboard.fxml` | ✅ NOT STARTED | Dashboard screen layout |
-| `resources/fxml/expenses.fxml` | ✅ NOT STARTED | Needed for Week 2 |
-| `resources/fxml/budget.fxml` | ✅ NOT STARTED | Needed for Week 3 |
-| `resources/fxml/reports.fxml` | ✅ NOT STARTED | Needed for Week 4 |
-| `resources/css/app.css` | ✅ NOT STARTED | Styling |
-| `controllers/ExpenseController.java` | ✅ NOT STARTED | Needed for Week 2 |
-| `controllers/BudgetController.java` | ✅ NOT STARTED | Needed for Week 3 |
-| `controllers/ReportController.java` | ✅ NOT STARTED | Needed for Week 4 |
+| `Launcher.java` | ✅ COMPLETE | **BLOCKER** — JavaFX entry point |
+| `MainApplication.java` | ✅ COMPLETE | **BLOCKER** — Scene builder, window setup |
+| `controllers/LoginController.java` | ✅ COMPLETE | Depends on AuthService |
+| `controllers/RegisterController.java` | ✅ COMPLETE | Depends on AuthService |
+| `controllers/DashboardController.java` | ✅ COMPLETE | Depends on UserSession |
+| `resources/fxml/login.fxml` | ✅ COMPLETE | Login screen layout |
+| `resources/fxml/register.fxml` | ✅ COMPLETE | Register screen layout |
+| `resources/fxml/dashboard.fxml` | ✅ COMPLETE | Dashboard screen layout |
+| `resources/fxml/expenses.fxml` | ✅ COMPLETE | Needed for Week 2 |
+| `resources/fxml/budget.fxml` | ✅ COMPLETE | Needed for Week 3 |
+| `resources/fxml/reports.fxml` | ✅ COMPLETE | Needed for Week 4 |
+| `resources/css/app.css` | ✅ COMPLETE | Styling |
+| `controllers/ExpenseController.java` | ✅ COMPLETE | Needed for Week 2 |
+| `controllers/BudgetController.java` | ✅ COMPLETE | Needed for Week 3 |
+| `controllers/ReportController.java` | ✅ COMPLETE | Needed for Week 4 |
 
 **Dependency Chain:**  
 ✅ `AuthService` + ✅ `UserSession` → ✅ Controllers & FXML
