@@ -1,4 +1,4 @@
-﻿package com.smartbudget.session;
+package com.smartbudget.session;
 
 public class UserSession {
 }

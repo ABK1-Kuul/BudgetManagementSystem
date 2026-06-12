@@ -1,4 +1,4 @@
-﻿package com.smartbudget.exceptions;
+package com.smartbudget.exceptions;
 
 public class ValidationException {
 }

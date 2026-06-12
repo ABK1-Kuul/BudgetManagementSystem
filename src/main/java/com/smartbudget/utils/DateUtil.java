@@ -1,4 +1,4 @@
-﻿package com.smartbudget.utils;
+package com.smartbudget.utils;
 
 public class DateUtil {
 }

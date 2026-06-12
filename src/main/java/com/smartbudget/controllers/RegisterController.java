@@ -1,4 +1,4 @@
-﻿package com.smartbudget.controllers;
+package com.smartbudget.controllers;
 
 public class RegisterController {
 }
