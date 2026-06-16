@@ -1,38 +1,99 @@
-// package com.smartbudget;
-
-// // Add JUnit tests here when ready
-// public class AppTest {
-// }
 package com.smartbudget;
 
 import com.smartbudget.dao.UserDAO;
+import com.smartbudget.dao.ExpenseDAO;
+import com.smartbudget.dao.IncomeDAO;
+import com.smartbudget.dao.CategoryDAO;
 import com.smartbudget.models.User;
+
+import java.sql.Date;
 
 public class AppTest {
 
     public static void main(String[] args) {
 
+        // =========================
+        // USER TEST
+        // =========================
+        System.out.println("=== USER TEST ===");
+
         UserDAO userDAO = new UserDAO();
 
-        // TEST INSERT
+        String username = "test_" + System.currentTimeMillis();
+        String email = username + "@gmail.com";
+
         User user = new User();
-        user.setUsername("app_test");
-        user.setEmail("app@gmail.com");
+        user.setUsername(username);
+        user.setEmail(email);
         user.setPassword("1234");
 
         boolean created = userDAO.createUser(user);
         System.out.println("User created: " + created);
 
-        // TEST SELECT
-        User found = userDAO.findByUsername("app_test");
+        User found = userDAO.findByUsername(username);
 
         if (found != null) {
-            System.out.println("User found:");
-            System.out.println(found.getUserId());
-            System.out.println(found.getUsername());
-            System.out.println(found.getEmail());
+            System.out.println("User found: " + found.getUsername());
         } else {
-            System.out.println("User not found");
+            System.out.println("User NOT found");
         }
+
+        int userId = (found != null) ? found.getUserId() : 1;
+
+        // =========================
+        // EXPENSE TEST
+        // =========================
+        System.out.println("\n=== EXPENSE TEST ===");
+
+        ExpenseDAO expenseDAO = new ExpenseDAO();
+
+        boolean expenseAdded = expenseDAO.addExpense(
+                userId,
+                1,
+                100.0,
+                "Food Test",
+                new Date(System.currentTimeMillis())
+        );
+
+        System.out.println("Expense added: " + expenseAdded);
+
+        // =========================
+        // INCOME TEST
+        // =========================
+        System.out.println("\n=== INCOME TEST ===");
+
+        IncomeDAO incomeDAO = new IncomeDAO();
+
+        boolean incomeAdded = incomeDAO.addIncome(
+                userId,
+                500.0,
+                "Salary Test",
+                new Date(System.currentTimeMillis())
+        );
+
+        System.out.println("Income added: " + incomeAdded);
+
+        // =========================
+        // CATEGORY TEST (NEW PART ADDED)
+        // =========================
+        System.out.println("\n=== CATEGORY TEST ===");
+
+        CategoryDAO categoryDAO = new CategoryDAO();
+
+        String categoryName = "Food_" + System.currentTimeMillis();
+
+        boolean categoryAdded = categoryDAO.addCategory(categoryName);
+        System.out.println("Category added: " + categoryAdded);
+
+        System.out.println("All categories:");
+
+        for (String c : categoryDAO.getAllCategories()) {
+            System.out.println("- " + c);
+        }
+
+        // =========================
+        // DONE
+        // =========================
+        System.out.println("\n=== TEST COMPLETED ===");
     }
 }

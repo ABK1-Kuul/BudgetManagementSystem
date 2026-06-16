@@ -131,4 +131,42 @@ public class UserDAO {
 
         return null;
     }
+
+    // ======================================================
+    // ADDED TASK METHODS (LOGIN / REGISTER SUPPORT)
+    // ======================================================
+
+    // This is an alias for your createUser (for consistency with AuthService)
+    public boolean registerUser(User user) {
+        return createUser(user);
+    }
+
+    // LOGIN helper (checks if username + password match)
+    public boolean validateLogin(String username, String password) {
+
+        String sql =
+                "SELECT * FROM users WHERE username = ? AND password = ?";
+
+        try (
+                Connection connection =
+                        DatabaseConnection.getConnection();
+
+                PreparedStatement statement =
+                        connection.prepareStatement(sql)
+        ) {
+
+            statement.setString(1, username);
+            statement.setString(2, password);
+
+            ResultSet rs = statement.executeQuery();
+
+            return rs.next(); // true if user exists
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }
