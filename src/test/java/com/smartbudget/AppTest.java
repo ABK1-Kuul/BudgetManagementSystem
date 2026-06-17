@@ -4,6 +4,7 @@ import com.smartbudget.dao.UserDAO;
 import com.smartbudget.dao.ExpenseDAO;
 import com.smartbudget.dao.IncomeDAO;
 import com.smartbudget.dao.CategoryDAO;
+import com.smartbudget.dao.BudgetDAO;
 import com.smartbudget.models.User;
 
 import java.sql.Date;
@@ -74,7 +75,7 @@ public class AppTest {
         System.out.println("Income added: " + incomeAdded);
 
         // =========================
-        // CATEGORY TEST (NEW PART ADDED)
+        // CATEGORY TEST
         // =========================
         System.out.println("\n=== CATEGORY TEST ===");
 
@@ -90,6 +91,30 @@ public class AppTest {
         for (String c : categoryDAO.getAllCategories()) {
             System.out.println("- " + c);
         }
+
+        // =========================
+        // BUDGET TEST
+        // =========================
+        System.out.println("\n=== BUDGET TEST ===");
+
+        BudgetDAO budgetDAO = new BudgetDAO();
+
+        boolean budgetAdded = budgetDAO.addBudget(
+                userId,
+                6,
+                2026,
+                5000.0
+        );
+
+        System.out.println("Budget added: " + budgetAdded);
+
+        double budget = budgetDAO.getBudget(
+                userId,
+                6,
+                2026
+        );
+
+        System.out.println("Retrieved Budget: " + budget);
 
         // =========================
         // DONE
