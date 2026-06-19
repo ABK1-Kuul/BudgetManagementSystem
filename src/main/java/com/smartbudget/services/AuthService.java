@@ -8,5 +8,5 @@ public interface AuthService {
     void register(User user) throws ValidationException;
 
     // Contract rule: Verify if a username and password match database records
-    User loginUser(String username, String password) throws ValidationException;
+    User login(String username, String password) throws ValidationException;
 }

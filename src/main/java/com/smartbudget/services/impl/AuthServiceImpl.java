@@ -50,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User loginUser(String username, String password) throws ValidationException {
+    public User login(String username, String password) throws ValidationException {
         if (username == null || username.trim().isEmpty() || password == null || password.isEmpty()) {
             throw new ValidationException("Username and password fields cannot be empty.");
         }
