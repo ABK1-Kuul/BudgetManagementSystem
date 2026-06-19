@@ -1,9 +1,12 @@
 package com.smartbudget.services.impl;
 
+import com.smartbudget.dao.ExpenseDAO;
 import com.smartbudget.models.Expense;
 import com.smartbudget.services.ExpenseService;
 import com.smartbudget.exceptions.ValidationException;
 
+import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -12,18 +15,42 @@ import java.util.List;
  */
 
 public class ExpenseServiceImpl implements ExpenseService{
+    private final  ExpenseDAO expenseDAO;
+
+    //constructor
+    public ExpenseServiceImpl(ExpenseDAO expenseDAO){
+        this.expenseDAO = expenseDAO;
+    }
     @Override
     public void addExpense(Expense expense) throws ValidationException{
-        // Step 1: Run our check rules first
+        //  Run our check rules first
         validateExpense(expense);
-        // Step 2: (Days 3-5 objective) If it passes validation, print success to console
+
+        // Convert LocalDate to java.sql.Date for Member 1's DAO
+        Date sqlDate = Date.valueOf(expense.getExpenseDate());
+
+        // Map fields to match Member 1's signature primitives
+        try{
+            boolean saved = expenseDAO.addExpense(expense.getUser().getUserId(), expense.getCategory().getCategoryId(), expense.getAmount(), expense.getDescription(), sqlDate);
+
+            if (!saved) {
+                throw new ValidationException("Internal Database Error: Failed to save expense record.");
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
         System.out.println("Business Logic Passed! Ready for Member 1's DAO: " + expense);
     }
 
     @Override
     public void deleteExpense(int expenseId) {
         if (expenseId > 0) {
-            System.out.println("Deleting expense entry with ID: " + expenseId);
+            try{
+                expenseDAO.deleteExpense(expenseId);
+                System.out.println("Deleting expense entry with ID: " + expenseId);
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -32,7 +59,8 @@ public class ExpenseServiceImpl implements ExpenseService{
         if (userId <= 0) {
             return List.of(); // Return a safe empty array list if user ID is bad
         }
-        return List.of(); // Temporary baseline empty list until Member 1 links DAO
+         return expenseDAO.getExpensesByUser(userId);
+
     }
 
     @Override

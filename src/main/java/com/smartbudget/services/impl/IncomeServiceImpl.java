@@ -1,9 +1,11 @@
 package com.smartbudget.services.impl;
 
+import com.smartbudget.dao.IncomeDAO;
 import com.smartbudget.exceptions.ValidationException;
 import com.smartbudget.services.IncomeService;
 import com.smartbudget.models.Income;
 
+import java.sql.Date;
 import java.util.List;
 /**
  * Concrete implementation for the IncomeService interface class where Member 2 manages income streams.
@@ -16,15 +18,34 @@ public class IncomeServiceImpl implements IncomeService{
         // Rule 1: Always validate before taking any action
         validateIncome(income);
 
-        // Rule 2: Print success snapshot to console for debugging
-        System.out.println("Income validation passed! Processing container data: " + income);
+        Date sqlDate = Date.valueOf(income.getIncomeDate());
+
+
+        try{
+            boolean saved = IncomeDAO.addIncome(
+                    income.getUser().getUserId(),
+                    income.getAmount(),
+                    income.getDescription(),
+                    sqlDate
+            );
+
+            if (!saved) {
+                throw new ValidationException("Internal Database Error: Failed to save income entry.");
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void deleteIncome(int incomeId){
         // Guard check: Ensure we are dealing with a valid numeric ID reference
         if (incomeId > 0) {
-            System.out.println("Deleting income entry with ID: " + incomeId);
+            try{
+                IncomeDAO.deleteIncome(incomeId);
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
         }
     }
     @Override
@@ -33,7 +54,8 @@ public class IncomeServiceImpl implements IncomeService{
         if (userId <= 0) {
             return List.of();
         }
-        return List.of(); // Returns an empty list until Member 1 hooks up IncomeDAO
+        return IncomeDAO.getIncomeByUser(userId);
+
     }
 
     @Override
