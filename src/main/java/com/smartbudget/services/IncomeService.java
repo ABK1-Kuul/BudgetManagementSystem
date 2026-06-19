@@ -14,7 +14,7 @@ public interface IncomeService {
     void deleteIncome(int incomeId);
 
     // Retrieves all recorded revenue entries for a specific user profile
-    List<Income> getIncomeByUser(int userId);
+    List<Income> getIncomesByUser(int userId);
 
     // Pure business logic validation method signature
     void validateIncome(Income income) throws ValidationException;
