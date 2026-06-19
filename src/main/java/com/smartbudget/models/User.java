@@ -1,4 +1,4 @@
-﻿package com.smartbudget.models;
+package com.smartbudget.models;
 
 import java.time.LocalDateTime;
 
@@ -7,18 +7,18 @@ public class User {
     private String username;
     private String email;
     private String password;
-    private LocalDateTime createdAt;
+    private String confirmPassword;
 
-    //No-Arg constructor
+
+    // Default Constructor
     public User(){}
 
-    //All-Arg constructor
-    public User(int userId, String username, String email, String password, LocalDateTime createdAt){
-        this.userId = userId;
+    //Multi-Arg constructor and i have added confirmPassword to match Member 3's controller
+    public User(String username, String email, String password, String confirmPassword){
         this.username = username;
         this.email = email;
         this.password = password;
-        this.createdAt = createdAt;
+        this.confirmPassword = confirmPassword;
     }
 
     //getter and setters
@@ -34,8 +34,8 @@ public class User {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public String getConfirmPassword() {return confirmPassword;}
+    public void setConfirmPassword(String confirmPassword) {this.confirmPassword = confirmPassword;}
 
     @Override
     public String toString() {
