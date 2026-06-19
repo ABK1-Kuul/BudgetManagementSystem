@@ -1,4 +1,4 @@
-﻿package com.smartbudget.services;
+package com.smartbudget.services;
 
 import com.smartbudget.models.Expense;
 import com.smartbudget.exceptions.ValidationException;
@@ -11,7 +11,7 @@ public interface ExpenseService {
     // Deletes an expense item by its unique database key
     void deleteExpense(int expenseId);
     // Retreives all recorded expenditures for a specific user profile
-    List<Expense> getExpensesByUserId(int userId);
+    List<Expense> getExpensesByUser(int userId);
     // Pure business logic validation method signature
     void validateExpense(Expense expense) throws ValidationException;
 

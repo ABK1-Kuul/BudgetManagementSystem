@@ -1,4 +1,4 @@
-﻿package com.smartbudget.services;
+package com.smartbudget.services;
 
 import com.smartbudget.models.Income;
 import com.smartbudget.exceptions.ValidationException;
@@ -14,7 +14,7 @@ public interface IncomeService {
     void deleteIncome(int incomeId);
 
     // Retrieves all recorded revenue entries for a specific user profile
-    List<Income> getIncomeByUserId(int userId);
+    List<Income> getIncomeByUser(int userId);
 
     // Pure business logic validation method signature
     void validateIncome(Income income) throws ValidationException;

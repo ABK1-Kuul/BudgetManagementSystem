@@ -55,7 +55,7 @@ public class ExpenseServiceImpl implements ExpenseService{
     }
 
     @Override
-    public List<Expense> getExpensesByUserId(int userId) {
+    public List<Expense> getExpensesByUser(int userId) {
         if (userId <= 0) {
             return List.of(); // Return a safe empty array list if user ID is bad
         }

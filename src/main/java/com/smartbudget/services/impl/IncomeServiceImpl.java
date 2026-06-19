@@ -49,7 +49,7 @@ public class IncomeServiceImpl implements IncomeService{
         }
     }
     @Override
-    public List<Income> getIncomeByUserId(int userId) {
+    public List<Income> getIncomeByUser(int userId) {
         // Safe baseline fallback
         if (userId <= 0) {
             return List.of();
