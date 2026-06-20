@@ -1,5 +1,60 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml">
-</AnchorPane>
+<?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.smartbudget.controllers.ReportController" prefWidth="900" prefHeight="600">
+    <!-- Top Nav Bar -->
+    <top>
+        <HBox spacing="10" style="-fx-background-color: #2c3e50; -fx-padding: 15;" alignment="CENTER_LEFT">
+            <Label text="Financial Reports" style="-fx-text-fill: white; -fx-font-size: 18; -fx-font-weight: bold;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Back to Dashboard" onAction="#onBackClick" style="-fx-font-size: 12; -fx-padding: 8; -fx-font-weight: bold; -fx-background-color: #34495e; -fx-text-fill: white;" />
+        </HBox>
+    </top>
+
+    <!-- Main Content Area -->
+    <center>
+        <SplitPane dividerPositions="0.4" style="-fx-background-color: white;">
+            <!-- Left Side: Summary Metrics -->
+            <items>
+                <VBox spacing="20" style="-fx-padding: 30; -fx-background-color: #f8f9fa;">
+                    <Label text="Report Summary" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                    
+                    <Separator />
+                    
+                    <VBox spacing="10">
+                        <Label text="Income vs. Spending" style="-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #7f8c8d;" />
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="Total Income:" prefWidth="120" style="-fx-font-weight: bold;" />
+                            <Label fx:id="reportIncomeLabel" text="0.00" style="-fx-text-fill: #27ae60; -fx-font-weight: bold;" />
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="Total Spending:" prefWidth="120" style="-fx-font-weight: bold;" />
+                            <Label fx:id="reportExpenseLabel" text="0.00" style="-fx-text-fill: #e74c3c; -fx-font-weight: bold;" />
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="Net Savings:" prefWidth="120" style="-fx-font-weight: bold;" />
+                            <Label fx:id="reportSavingsLabel" text="0.00" style="-fx-font-weight: bold;" />
+                        </HBox>
+                    </VBox>
+
+                    <Separator />
+
+                    <VBox spacing="10" VBox.vgrow="ALWAYS">
+                        <Label text="Academic OOP Highlight" style="-fx-font-weight: bold; -fx-font-size: 14; -fx-text-fill: #2980b9;" />
+                        <TextArea editable="false" wrapText="true" style="-fx-font-size: 11; -fx-text-fill: #555;" VBox.vgrow="ALWAYS" text="This reporting engine demonstrates several core OOP concepts:&#10;&#10;1. POLYMORPHISM: It aggregates custom transaction entities (Expense, Income) polymorphically into a single list and calls overridden methods.&#10;&#10;2. ENCAPSULATION: Models are fully encapsulated, exposing data securely through getters and guarding properties using validated setters." />
+                    </VBox>
+                </VBox>
+
+                <!-- Right Side: Pie Chart representation of Expenses -->
+                <VBox spacing="10" style="-fx-padding: 20;" alignment="CENTER">
+                    <Label text="Expense Breakdown by Category" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+                    <PieChart fx:id="expensePieChart" legendSide="BOTTOM" VBox.vgrow="ALWAYS" />
+                </VBox>
+            </items>
+        </SplitPane>
+    </center>
+</BorderPane>

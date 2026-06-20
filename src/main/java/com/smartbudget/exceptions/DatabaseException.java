@@ -1,4 +1,15 @@
-﻿package com.smartbudget.exceptions;
+package com.smartbudget.exceptions;
 
-public class DatabaseException {
+/**
+ * Custom exception for database-related errors.
+ */
+public class DatabaseException extends Exception {
+
+    public DatabaseException(String message) {
+        super(message);
+    }
+
+    public DatabaseException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
