@@ -9,6 +9,8 @@ import com.smartbudget.exceptions.DatabaseException;
 import com.smartbudget.models.Expense;
 import com.smartbudget.services.DashboardService;
 import com.smartbudget.services.ExpenseService;
+import com.smartbudget.services.impl.DashboardServiceImpl;
+import com.smartbudget.services.impl.ExpenseServiceImpl;
 import com.smartbudget.session.UserSession;
 import com.smartbudget.utils.AlertUtil;
 
@@ -36,8 +38,8 @@ public class ReportController {
 
     @FXML
     public void initialize() {
-        expenseService = new ExpenseService();
-        dashboardService = new DashboardService();
+        expenseService = new ExpenseServiceImpl();
+        dashboardService = new DashboardServiceImpl();
         userSession = UserSession.getInstance();
 
         if (!userSession.isLoggedIn()) {

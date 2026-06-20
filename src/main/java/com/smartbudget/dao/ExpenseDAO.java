@@ -16,8 +16,6 @@ import com.smartbudget.models.User;
 
 /**
  * Data Access Object for Expense entity.
- * Handles database operations related to tracking user expenses.
- * Demonstrates the implementation of BaseDAO with object composition/aggregation.
  */
 public class ExpenseDAO implements BaseDAO<Expense> {
 
@@ -36,7 +34,7 @@ public class ExpenseDAO implements BaseDAO<Expense> {
         String query = "SELECT expense_id, user_id, category_id, amount, description, expense_date FROM expenses WHERE expense_id = ?";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            
+
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -52,11 +50,11 @@ public class ExpenseDAO implements BaseDAO<Expense> {
     @Override
     public List<Expense> findByUserId(int userId) throws DatabaseException {
         List<Expense> expenses = new ArrayList<>();
-        String query = "SELECT expense_id, user_id, category_id, amount, description, expense_date " +
-                       "FROM expenses WHERE user_id = ? ORDER BY expense_date DESC";
+        String query = "SELECT expense_id, user_id, category_id, amount, description, expense_date "
+                + "FROM expenses WHERE user_id = ? ORDER BY expense_date DESC";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            
+
             stmt.setInt(1, userId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -74,13 +72,13 @@ public class ExpenseDAO implements BaseDAO<Expense> {
         String query = "INSERT INTO expenses (user_id, category_id, amount, description, expense_date) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            
+
             stmt.setInt(1, entity.getUser().getUserId());
             stmt.setInt(2, entity.getCategory().getCategoryId());
             stmt.setDouble(3, entity.getAmount());
             stmt.setString(4, entity.getDescription());
             stmt.setDate(5, Date.valueOf(entity.getExpenseDate()));
-            
+
             int affected = stmt.executeUpdate();
             if (affected > 0) {
                 try (ResultSet rs = stmt.getGeneratedKeys()) {
@@ -101,14 +99,14 @@ public class ExpenseDAO implements BaseDAO<Expense> {
         String query = "UPDATE expenses SET user_id = ?, category_id = ?, amount = ?, description = ?, expense_date = ? WHERE expense_id = ?";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            
+
             stmt.setInt(1, entity.getUser().getUserId());
             stmt.setInt(2, entity.getCategory().getCategoryId());
             stmt.setDouble(3, entity.getAmount());
             stmt.setString(4, entity.getDescription());
             stmt.setDate(5, Date.valueOf(entity.getExpenseDate()));
             stmt.setInt(6, entity.getExpenseId());
-            
+
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new DatabaseException("Error updating expense: " + e.getMessage(), e);
@@ -120,7 +118,7 @@ public class ExpenseDAO implements BaseDAO<Expense> {
         String query = "DELETE FROM expenses WHERE expense_id = ?";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            
+
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -128,18 +126,13 @@ public class ExpenseDAO implements BaseDAO<Expense> {
         }
     }
 
-    /**
-     * Map ResultSet row to Expense object.
-     * Demonstrates Object Composition/Aggregation by loading User and Category objects.
-     */
     private Expense mapResultSetToExpense(ResultSet rs) throws SQLException, DatabaseException {
         int userId = rs.getInt("user_id");
         int categoryId = rs.getInt("category_id");
-        
-        // Retrieve associated aggregated objects
+
         User user = userDAO.findById(userId);
         Category category = categoryDAO.findById(categoryId);
-        
+
         try {
             Expense expense = new Expense();
             expense.setExpenseId(rs.getInt("expense_id"));
@@ -147,7 +140,7 @@ public class ExpenseDAO implements BaseDAO<Expense> {
             expense.setCategory(category);
             expense.setAmount(rs.getDouble("amount"));
             expense.setDescription(rs.getString("description"));
-            
+
             Date date = rs.getDate("expense_date");
             if (date != null) {
                 expense.setExpenseDate(date.toLocalDate());

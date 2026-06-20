@@ -5,6 +5,7 @@ import com.smartbudget.exceptions.DatabaseException;
 import com.smartbudget.exceptions.ValidationException;
 import com.smartbudget.models.User;
 import com.smartbudget.services.AuthService;
+import com.smartbudget.services.impl.AuthServiceImpl;
 import com.smartbudget.utils.AlertUtil;
 
 import javafx.fxml.FXML;
@@ -43,7 +44,7 @@ public class RegisterController {
      */
     @FXML
     public void initialize() {
-        authService = new AuthService();
+        authService = new AuthServiceImpl();
         errorLabel.setText("");
     }
     

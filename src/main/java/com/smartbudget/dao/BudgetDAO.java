@@ -14,8 +14,6 @@ import com.smartbudget.models.User;
 
 /**
  * Data Access Object for Budget entity.
- * Handles database operations related to setting and tracking budgets.
- * Demonstrates the implementation of BaseDAO with object composition.
  */
 public class BudgetDAO implements BaseDAO<Budget> {
 
@@ -32,7 +30,7 @@ public class BudgetDAO implements BaseDAO<Budget> {
         String query = "SELECT budget_id, user_id, month, year, amount FROM budgets WHERE budget_id = ?";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            
+
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -51,7 +49,7 @@ public class BudgetDAO implements BaseDAO<Budget> {
         String query = "SELECT budget_id, user_id, month, year, amount FROM budgets WHERE user_id = ? ORDER BY year DESC, month DESC";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            
+
             stmt.setInt(1, userId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -64,14 +62,11 @@ public class BudgetDAO implements BaseDAO<Budget> {
         return budgets;
     }
 
-    /**
-     * Find budget by User, Month, and Year.
-     */
     public Budget findByUserAndPeriod(int userId, int month, int year) throws DatabaseException {
         String query = "SELECT budget_id, user_id, month, year, amount FROM budgets WHERE user_id = ? AND month = ? AND year = ?";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            
+
             stmt.setInt(1, userId);
             stmt.setInt(2, month);
             stmt.setInt(3, year);
@@ -86,17 +81,39 @@ public class BudgetDAO implements BaseDAO<Budget> {
         return null;
     }
 
+    /**
+     * Sum expenses for a user in a given month/year (used by budget status).
+     */
+    public double getSpentForPeriod(int userId, int month, int year) throws DatabaseException {
+        String query = "SELECT COALESCE(SUM(amount), 0) FROM expenses WHERE user_id = ? AND MONTH(expense_date) = ? AND YEAR(expense_date) = ?";
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, userId);
+            stmt.setInt(2, month);
+            stmt.setInt(3, year);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error calculating spent amount: " + e.getMessage(), e);
+        }
+        return 0.0;
+    }
+
     @Override
     public boolean insert(Budget entity) throws DatabaseException {
         String query = "INSERT INTO budgets (user_id, month, year, amount) VALUES (?, ?, ?, ?)";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            
+
             stmt.setInt(1, entity.getUser().getUserId());
             stmt.setInt(2, entity.getMonth());
             stmt.setInt(3, entity.getYear());
             stmt.setDouble(4, entity.getAmount());
-            
+
             int affected = stmt.executeUpdate();
             if (affected > 0) {
                 try (ResultSet rs = stmt.getGeneratedKeys()) {
@@ -117,13 +134,13 @@ public class BudgetDAO implements BaseDAO<Budget> {
         String query = "UPDATE budgets SET user_id = ?, month = ?, year = ?, amount = ? WHERE budget_id = ?";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            
+
             stmt.setInt(1, entity.getUser().getUserId());
             stmt.setInt(2, entity.getMonth());
             stmt.setInt(3, entity.getYear());
             stmt.setDouble(4, entity.getAmount());
             stmt.setInt(5, entity.getBudgetId());
-            
+
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new DatabaseException("Error updating budget: " + e.getMessage(), e);
@@ -135,7 +152,7 @@ public class BudgetDAO implements BaseDAO<Budget> {
         String query = "DELETE FROM budgets WHERE budget_id = ?";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            
+
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -143,14 +160,10 @@ public class BudgetDAO implements BaseDAO<Budget> {
         }
     }
 
-    /**
-     * Map ResultSet row to Budget object.
-     * Demonstrates Object composition by loading the associated User object.
-     */
     private Budget mapResultSetToBudget(ResultSet rs) throws SQLException, DatabaseException {
         int userId = rs.getInt("user_id");
         User user = userDAO.findById(userId);
-        
+
         Budget budget = new Budget();
         budget.setBudgetId(rs.getInt("budget_id"));
         budget.setUser(user);

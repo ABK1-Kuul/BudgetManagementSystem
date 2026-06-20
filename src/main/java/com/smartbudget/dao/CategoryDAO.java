@@ -29,7 +29,7 @@ public class CategoryDAO implements BaseDAO<Category> {
         String query = "SELECT category_id, category_name FROM categories WHERE category_id = ?";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            
+
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -51,7 +51,7 @@ public class CategoryDAO implements BaseDAO<Category> {
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
-            
+
             while (rs.next()) {
                 categories.add(new Category(rs.getInt("category_id"), rs.getString("category_name")));
             }
@@ -72,7 +72,7 @@ public class CategoryDAO implements BaseDAO<Category> {
         String query = "INSERT INTO categories (category_name) VALUES (?)";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            
+
             stmt.setString(1, entity.getCategoryName());
             int affected = stmt.executeUpdate();
             if (affected > 0) {
@@ -94,7 +94,7 @@ public class CategoryDAO implements BaseDAO<Category> {
         String query = "UPDATE categories SET category_name = ? WHERE category_id = ?";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            
+
             stmt.setString(1, entity.getCategoryName());
             stmt.setInt(2, entity.getCategoryId());
             return stmt.executeUpdate() > 0;
@@ -108,7 +108,7 @@ public class CategoryDAO implements BaseDAO<Category> {
         String query = "DELETE FROM categories WHERE category_id = ?";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-            
+
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {

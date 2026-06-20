@@ -55,4 +55,4 @@ VALUES
 INSERT INTO budgets (user_id, month, year, amount)
 VALUES 
 (1, 6, 2026, 1000),
-(2, 6, 2026, 800);
+(2, 6, 2026, 1500);
