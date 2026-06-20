@@ -2,9 +2,7 @@ package com.smartbudget.services;
 
 import com.smartbudget.models.Income;
 import com.smartbudget.exceptions.ValidationException;
-
 import java.util.List;
-
 
 public interface IncomeService {
     // Validates earnings, throws exception on failure, otherwise saves via DAO
@@ -18,5 +16,4 @@ public interface IncomeService {
 
     // Pure business logic validation method signature
     void validateIncome(Income income) throws ValidationException;
-
 }

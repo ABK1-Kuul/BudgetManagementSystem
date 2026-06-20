@@ -7,22 +7,28 @@ import com.smartbudget.models.Income;
 
 import java.sql.Date;
 import java.util.List;
+
 /**
  * Concrete implementation for the IncomeService interface class where Member 2 manages income streams.
  * Fits right into our Week 2 Days 6-7 schedule!
  */
+public class IncomeServiceImpl implements IncomeService {
+    private final IncomeDAO incomeDAO;
 
-public class IncomeServiceImpl implements IncomeService{
+    // Constructor injection: service layer demands the DAO to function
+    public IncomeServiceImpl(IncomeDAO incomeDAO) {
+        this.incomeDAO = incomeDAO;
+    }
+
     @Override
-    public void addIncome(Income income) throws ValidationException{
+    public void addIncome(Income income) throws ValidationException {
         // Rule 1: Always validate before taking any action
         validateIncome(income);
 
         Date sqlDate = Date.valueOf(income.getIncomeDate());
 
-
-        try{
-            boolean saved = IncomeDAO.addIncome(
+        try {
+            boolean saved = incomeDAO.addIncome(
                     income.getUser().getUserId(),
                     income.getAmount(),
                     income.getDescription(),
@@ -32,34 +38,34 @@ public class IncomeServiceImpl implements IncomeService{
             if (!saved) {
                 throw new ValidationException("Internal Database Error: Failed to save income entry.");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     @Override
-    public void deleteIncome(int incomeId){
+    public void deleteIncome(int incomeId) {
         // Guard check: Ensure we are dealing with a valid numeric ID reference
         if (incomeId > 0) {
-            try{
-                IncomeDAO.deleteIncome(incomeId);
-            }catch (Exception e){
+            try {
+                incomeDAO.deleteIncome(incomeId);
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
     }
+
     @Override
-    public List<Income> getIncomeByUser(int userId) {
+    public List<Income> getIncomesByUser(int userId) {
         // Safe baseline fallback
         if (userId <= 0) {
             return List.of();
         }
-        return IncomeDAO.getIncomeByUser(userId);
-
+        return incomeDAO.getIncomeByUser(userId);
     }
 
     @Override
-    public void validateIncome(Income income) throws ValidationException{
+    public void validateIncome(Income income) throws ValidationException {
         // Guard Clause 1: Structural verification
         if (income == null) {
             throw new ValidationException("Income data package cannot be empty.");
@@ -85,6 +91,3 @@ public class IncomeServiceImpl implements IncomeService{
         }
     }
 }
-
-
-

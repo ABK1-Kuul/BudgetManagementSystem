@@ -1,4 +1,4 @@
-﻿package com.smartbudget.models;
+package com.smartbudget.models;
 
 public class Budget {
     private int budgetId;

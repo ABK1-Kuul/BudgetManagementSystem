@@ -1,4 +1,4 @@
-﻿package com.smartbudget.enums;
+package com.smartbudget.enums;
 
 public class ExpenseCategory {
 }
