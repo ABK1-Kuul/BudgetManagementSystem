@@ -28,7 +28,11 @@ public class AppTest {
      */
     @Test
     public void testPolymorphismAndInheritance() throws ValidationException {
-        User user = new User(1, "testUser", "test@test.com", "password", null);
+        User user = new User();
+        user.setUserId(1);
+        user.setUsername("testUser");
+        user.setEmail("test@test.com");
+        user.setPassword("password");
         Category category = new Category(1, "Rent");
         LocalDate date = LocalDate.now();
 

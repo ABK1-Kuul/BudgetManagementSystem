@@ -20,6 +20,8 @@ import com.smartbudget.models.Income;
 import com.smartbudget.models.User;
 import com.smartbudget.services.ExpenseService;
 import com.smartbudget.services.IncomeService;
+import com.smartbudget.services.impl.ExpenseServiceImpl;
+import com.smartbudget.services.impl.IncomeServiceImpl;
 import com.smartbudget.session.UserSession;
 import com.smartbudget.utils.AlertUtil;
 
@@ -62,8 +64,8 @@ public class ExpenseController {
 
     @FXML
     public void initialize() {
-        expenseService = new ExpenseService();
-        incomeService = new IncomeService();
+        expenseService = new ExpenseServiceImpl();
+        incomeService = new IncomeServiceImpl();
         userSession = UserSession.getInstance();
 
         // Safety redirect if session isn't loaded

@@ -7,18 +7,18 @@ import java.sql.SQLException;
 
 /**
  * Singleton database connection manager.
- * Handles pooled connections to MySQL database.
+ * Handles connections to MySQL database using DatabaseConfig settings.
  */
 public class DatabaseConnection {
-    
+
     private static DatabaseConnection instance;
     private Connection connection;
-    
+
     /**
      * Private constructor - prevents direct instantiation.
      */
     private DatabaseConnection() {}
-    
+
     /**
      * Get singleton instance of DatabaseConnection.
      * @return DatabaseConnection instance
@@ -29,7 +29,7 @@ public class DatabaseConnection {
         }
         return instance;
     }
-    
+
     /**
      * Get active database connection.
      * Creates new connection if current one is null or closed.
@@ -40,20 +40,20 @@ public class DatabaseConnection {
         try {
             // Load MySQL driver
             Class.forName(DatabaseConfig.DB_DRIVER);
-            
+
             // Create new connection
             connection = DriverManager.getConnection(
                 DatabaseConfig.DB_URL,
                 DatabaseConfig.DB_USER,
                 DatabaseConfig.DB_PASSWORD
             );
-            
+
             return connection;
         } catch (ClassNotFoundException e) {
             throw new SQLException("MySQL JDBC Driver not found: " + e.getMessage());
         }
     }
-    
+
     /**
      * Close current connection.
      * @throws SQLException if close fails
@@ -64,10 +64,9 @@ public class DatabaseConnection {
             connection = null;
         }
     }
-    
+
     /**
      * Test database connectivity.
-     * Useful for debugging connection issues.
      * @return true if connection successful, false otherwise
      */
     public boolean testConnection() {

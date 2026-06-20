@@ -3,6 +3,7 @@ package com.smartbudget.controllers;
 import com.smartbudget.MainApplication;
 import com.smartbudget.exceptions.DatabaseException;
 import com.smartbudget.services.DashboardService;
+import com.smartbudget.services.impl.DashboardServiceImpl;
 import com.smartbudget.session.UserSession;
 import com.smartbudget.utils.AlertUtil;
 
@@ -31,7 +32,7 @@ public class DashboardController {
     @FXML
     public void initialize() {
         userSession = UserSession.getInstance();
-        dashboardService = new DashboardService();
+        dashboardService = new DashboardServiceImpl();
         
         // Check if user is logged in
         if (userSession.isLoggedIn()) {

@@ -9,6 +9,7 @@ import com.smartbudget.exceptions.ValidationException;
 import com.smartbudget.models.Budget;
 import com.smartbudget.models.User;
 import com.smartbudget.services.BudgetService;
+import com.smartbudget.services.impl.BudgetServiceImpl;
 import com.smartbudget.session.UserSession;
 import com.smartbudget.utils.AlertUtil;
 
@@ -51,7 +52,7 @@ public class BudgetController {
 
     @FXML
     public void initialize() {
-        budgetService = new BudgetService();
+        budgetService = new BudgetServiceImpl();
         userSession = UserSession.getInstance();
 
         if (!userSession.isLoggedIn()) {
