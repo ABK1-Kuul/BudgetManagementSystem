@@ -32,8 +32,21 @@ public class MainApplication extends Application {
             System.exit(0);
         });
         
-        // Load and display login screen
-        showLoginScreen();
+        // Install uncaught exception handler to capture JavaFX thread errors
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+            System.err.println("Uncaught exception in thread " + t.getName() + ": " + e.getMessage());
+            e.printStackTrace();
+        });
+
+        // Load and display login screen (log around to capture issues)
+        try {
+            System.out.println("Loading login screen...");
+            showLoginScreen();
+            System.out.println("Login screen loaded. Scene: " + (primaryStage.getScene() != null));
+        } catch (Throwable t) {
+            System.err.println("Error while showing login screen: " + t.getMessage());
+            t.printStackTrace();
+        }
         
         primaryStage.show();
         System.out.println("✓ Application started");
